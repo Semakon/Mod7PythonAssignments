@@ -1,6 +1,3 @@
-from collections import defaultdict
-
-
 def divisors(a):
     a = abs(a)
     if a == 1:
