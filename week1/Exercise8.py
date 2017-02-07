@@ -1,4 +1,4 @@
-from week1 import Exercise7
+from week1.Exercise7 import divisors, primefact
 
-print(Exercise7.divisors(600851475143))
-print(Exercise7.primefact(600851475143))
+print(divisors(600851475143))
+print(primefact(600851475143))
