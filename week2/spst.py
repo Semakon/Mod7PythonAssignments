@@ -2,6 +2,7 @@ from week1 import graph
 from week1.graph_io import load_graph, write_dot  # graphIO import graphs.py, so we do not need to import it here.
 import os
 import math
+import week2.heap
 
 # Use these options to change the tests:
 
