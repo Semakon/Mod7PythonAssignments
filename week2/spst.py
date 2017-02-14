@@ -2,19 +2,19 @@ from week1 import graph
 from week1.graph_io import load_graph, write_dot  # graphIO import graphs.py, so we do not need to import it here.
 import os
 import math
-import week2.heap
+from week2.heap import Heap
 
 # Use these options to change the tests:
 
 TEST_BELLMAN_FORD_DIRECTED = True
 TEST_BELLMAN_FORD_UNDIRECTED = False
-TEST_DIJKSTRA_DIRECTED = False
+TEST_DIJKSTRA_DIRECTED = True
 TEST_DIJKSTRA_UNDIRECTED = False
 
 WRITE_DOT_FILES = True
 
 # Use this to select the graphs to test your algorithms on:
-TestInstances = ["data\\weightedexample.gr"]
+TestInstances = ["..\\week1\\data\\weightedexample.gr"]
 # TestInstances=["randomplanar.gr"]
 # TestInstances = ["randomplanar10.gr"]
 # TestInstances=["bd.gr","bbf.gr"]; WriteDOTFiles=False
@@ -117,25 +117,30 @@ def dijkstra_directed(graph, start):
         shortest path edge, for every reachable vertex except <start>.
         <graph> is viewed as a directed graph.
     """
-    Q = set()  # make heap or tree to speed up search algorithm
+    Q = Heap(False)  # minheap
     # Initialize the vertex attributes:
     for v in graph.vertices:
         v.dist = math.inf
         v.in_edge = None
-        Q.add(v)
+        Q.insert(v)
 
     start.dist = 0
+    while Q.is_not_empty():
+        # debug
+        print("\n" + str(Q))
+        for w in Q._data:
+            print(w.__str__() + ": " + str(w.dist))
 
-    while Q:
-        # u <- vertex in Q with min dist[u]
-        # remove u from Q
+        u = Q.top
+        Q.delete(u)
+        # print(u.__str__() + ": " + str(u.dist))
+        for e in u.incidence:
+            v = e.other_end(u)
+            if Q.in_heap(v) and e.head == v:
+                # print("u: " + u.__str__() + "\td: " + str(u.dist))
+                # print("v: " + v.__str__() + "\td: " + str(v.dist))
+                relax(e)
 
-        # for each neighbour v of u where v is still in Q
-            # alt <- dist[u] + length(u, v)
-            # if alt < dist[v]
-                # dist[v] <- alt
-                # prev[v] <- u
-        pass
 
 ##############################################################################
 #

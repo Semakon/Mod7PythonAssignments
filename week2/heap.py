@@ -1,4 +1,5 @@
 from week1.graph import *
+import math
 
 
 class Heap(object):
@@ -10,7 +11,7 @@ class Heap(object):
     def __init__(self, E=None, max=True):
         """
         Creates a maxheap if `max` is True or a minheap if `max` is False.
-        :param E: The
+        :param E: The list representing the heap.
         :param max: Decides whether the heap will be a minheap or a maxheap.
         """
         self._max = max
@@ -112,15 +113,29 @@ class Heap(object):
         :param i: The index of the current node.
         """
         left, right = 2*i+1, 2*i+2
+
+        if left < self.heapsize:
+            v = self._data[left]
+            print(v.__str__() + " (left): " + str(v.dist))
+        if i < self.heapsize:
+            v = self._data[i]
+            print(v.__str__() + " (i): " + str(v.dist))
+        if right < self.heapsize:
+            v = self._data[right]
+            print(v.__str__() + " (right): " + str(v.dist))
+
         if left < self.heapsize and self._data[left].dist < self._data[i].dist:
-            max = left
+            min = left
+            # print("min: " + str(min) + "\nleft: " + str(left))
         else:
-            max = i
-        if right < self.heapsize and self._data[right].dist < self._data[max].dist:
-            max = right  # max is index of max{_data[i], _data[left], _data[right]}
-        if max != i:     # so it's not a heap
-            self._data[i], self._data[max] = self._data[max], self._data[i]
-            self._min_heapify(max)
+            min = i
+            # print("min: " + str(min) + "\ni: " + str(i))
+        if right < self.heapsize and self._data[right].dist < self._data[min].dist:
+            min = right  # max is index of max{_data[i], _data[left], _data[right]}
+            # print("min: " + str(min) + "\nright: " + str(right))
+        if min != i:     # so it's not a heap
+            self._data[i], self._data[min] = self._data[min], self._data[i]
+            self._min_heapify(min)
 
     def insert(self, x: "Vertex"):
         """
@@ -137,6 +152,29 @@ class Heap(object):
         """
         self._data.remove(x)
         self._build_heap()
+
+    def in_heap(self, x: "Vertex") -> bool:
+        """
+        Checks whether a vertex is in the heap.
+        :param x: The vertex to be checked
+        :return: True if the vertex is in the heap, False if it is not.
+        """
+        return x in self._data
+
+    def is_not_empty(self) -> bool:
+        """
+        Checks whether the heap is empty.
+        :return: True if the heap is empty, False if it is not.
+        """
+        return bool(self._data)
+
+    @property
+    def top(self) -> "Vertex":
+        """
+        Returns the top vertex of the heap.
+        :return: The top vertex of the heap.
+        """
+        return self._data[0]
 
     @property
     def max(self) -> bool:
