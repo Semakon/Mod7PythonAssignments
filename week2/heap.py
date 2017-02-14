@@ -8,7 +8,7 @@ class Heap(object):
     children respectively.
     """
 
-    def __init__(self, E=None, max=True):
+    def __init__(self, max=False, E=None):
         """
         Creates a maxheap if `max` is True or a minheap if `max` is False.
         :param E: The list representing the heap.
@@ -19,7 +19,7 @@ class Heap(object):
             self._data = []
         else:
             self._data = E
-            self._build_heap()
+            self.build_heap()
 
     def __repr__(self):
         """
@@ -73,7 +73,7 @@ class Heap(object):
             s = str(i)
         return s
 
-    def _build_heap(self):
+    def build_heap(self, test=False):
         """
         Builds a heap from _data.
         """
@@ -113,26 +113,12 @@ class Heap(object):
         :param i: The index of the current node.
         """
         left, right = 2*i+1, 2*i+2
-
-        if left < self.heapsize:
-            v = self._data[left]
-            print(v.__str__() + " (left): " + str(v.dist))
-        if i < self.heapsize:
-            v = self._data[i]
-            print(v.__str__() + " (i): " + str(v.dist))
-        if right < self.heapsize:
-            v = self._data[right]
-            print(v.__str__() + " (right): " + str(v.dist))
-
         if left < self.heapsize and self._data[left].dist < self._data[i].dist:
             min = left
-            # print("min: " + str(min) + "\nleft: " + str(left))
         else:
             min = i
-            # print("min: " + str(min) + "\ni: " + str(i))
         if right < self.heapsize and self._data[right].dist < self._data[min].dist:
             min = right  # max is index of max{_data[i], _data[left], _data[right]}
-            # print("min: " + str(min) + "\nright: " + str(right))
         if min != i:     # so it's not a heap
             self._data[i], self._data[min] = self._data[min], self._data[i]
             self._min_heapify(min)
@@ -143,7 +129,7 @@ class Heap(object):
         :param x: The vertex that is to be inserted.
         """
         self._data.append(x)
-        self._build_heap()
+        self.build_heap()
 
     def delete(self, x: "Vertex"):
         """
@@ -151,7 +137,7 @@ class Heap(object):
         :param x: The vertex to be deleted.
         """
         self._data.remove(x)
-        self._build_heap()
+        self.build_heap()
 
     def in_heap(self, x: "Vertex") -> bool:
         """

@@ -117,29 +117,23 @@ def dijkstra_directed(graph, start):
         shortest path edge, for every reachable vertex except <start>.
         <graph> is viewed as a directed graph.
     """
-    Q = Heap(False)  # minheap
+    Q = Heap()  # minheap
+
     # Initialize the vertex attributes:
     for v in graph.vertices:
         v.dist = math.inf
         v.in_edge = None
         Q.insert(v)
-
     start.dist = 0
-    while Q.is_not_empty():
-        # debug
-        print("\n" + str(Q))
-        for w in Q._data:
-            print(w.__str__() + ": " + str(w.dist))
 
+    while Q.is_not_empty():
         u = Q.top
         Q.delete(u)
-        # print(u.__str__() + ": " + str(u.dist))
         for e in u.incidence:
             v = e.other_end(u)
             if Q.in_heap(v) and e.head == v:
-                # print("u: " + u.__str__() + "\td: " + str(u.dist))
-                # print("v: " + v.__str__() + "\td: " + str(v.dist))
                 relax(e)
+                Q.build_heap()
 
 
 ##############################################################################
